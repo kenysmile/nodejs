@@ -6,15 +6,23 @@ import Landing from './components/layout/Landing';
 import Login from '../src/components/auth/Login';
 import Register from '../src/components/auth/Register';
 import Alert from './components/layout/Alert';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 // Redux
 import { Provider } from 'react-redux'
 import store from './store';
-// import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 import './App.css'
+// import { loadUser } from './actions/auth';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token)
+}
 
 const App = () => 
+  // useEffect(() => {
+  //   store.dispatch(loadUser())
+  // }, [])
+
   <Provider store={store}>
     <Router>
     <Fragment>
@@ -32,4 +40,4 @@ const App = () =>
     </Router>
   </Provider>
 
-export default App;
+export default App

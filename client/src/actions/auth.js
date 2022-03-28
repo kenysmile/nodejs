@@ -3,8 +3,8 @@ import { setAlert } from "./alert";
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
-    USER_LOADED,
-    AUTH_ERROR
+    // USER_LOADED,
+    // AUTH_ERROR
 } from './types'
 
 // import setAuthToken from "../utils/setAuthToken";
@@ -37,31 +37,25 @@ export const register = ({ name, email, password }) => async dispatch => {
         }
     }
 
-    // const body = JSON.stringify({ name, email, password })
-    
-    const body = {
-        "name": "NN444",
-        "email": "nn444@gmail.com",
-        "password": "1234567"
-    }
+    const body = JSON.stringify({ name, email, password })
+
 
     try {
         const res = await axios.post('/api/users', body, config)
-    
+        console.log(res.data)
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
         })
     } catch (err) {
-        // console.log()
-        // console.log(err.reponse)
 
-        // const errors = err.reponse.data.errors
-        // if(errors) {
-            // errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
-        // }
+        const errors = err.reponse.data.errors
+        if(errors) {
+                errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+            }
+        }
         dispatch({
             type: REGISTER_FAIL
         })
-    }
+    
 }

@@ -30,7 +30,6 @@ router.post(
 
         const { name, email, password } = req.body;
         try {
-            console.log('1111111111')
             let user = await User.findOne({ email });
             console.log(user)
             if(user) {
@@ -38,7 +37,6 @@ router.post(
                 .status(400)
                 .json({ errors: [{ msg: 'User already exists' }] })
             }
-            console.log('222222')
             const avatar = gravatar.url(email, {
                 s: '200',
                 r: 'pg',
@@ -51,7 +49,6 @@ router.post(
                 avatar,
                 password,
             });
-            console.log('33333333333333')
 
             const salt = await bcrypt.genSalt(10);
             
@@ -64,14 +61,12 @@ router.post(
                     id: user.id
                 }
             };
-            console.log('44444444444')
             jwt.sign(
                 payload, 
                 config.jwtSecret,
             { expiresIn: 360000 },
             (err, token) => {
                 if (err) throw err;
-                console.log(res.json({ token }))
                 return res.json({ token });
             }
             );
