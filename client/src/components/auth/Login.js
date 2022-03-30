@@ -16,8 +16,8 @@ const Login = ({ login, isAuthenticated }) => {
         e.preventDefault()
         login({ email, password })
     }
-
-    // Redirect if logged in
+    console.log(isAuthenticated)
+    // console.log(isAuthenticated)
     if(isAuthenticated) {
       return <Redirect to="/dashboard" />
     }
@@ -60,11 +60,11 @@ const Login = ({ login, isAuthenticated }) => {
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
-  isAuthenticatedL: PropTypes.bool
+  isAuthenticated: PropTypes.bool
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps, { login })(Login);

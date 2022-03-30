@@ -16,7 +16,6 @@ const jwt = require('jsonwebtoken');
 // @access Public
 router.get('/', auth, async (req, res) => {
     try {
-        console.log('1111111111')
       const user = await User.findById(req.user.id).select('-password');
       res.json(user);
     } catch (err) {
@@ -56,6 +55,7 @@ router.post(
             });
 
             const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(password, salt);
             await user.save();
             const payload = {
                 user: {
@@ -63,13 +63,15 @@ router.post(
                 }
             };
             jwt.sign(
-                payload, 
-                config.get('jwtSecret'),
+                payload,
+                config.jwtSecret,
             { expiresIn: 360000 },
             (err, token) => {
                 if (err) throw err;
                 res.json({ token });
+
             }
+
             );
 
         } catch(err) {
