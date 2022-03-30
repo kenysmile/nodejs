@@ -16,15 +16,14 @@ const jwt = require('jsonwebtoken');
 // @access Public
 router.get('/', auth, async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).select('-password');
-        res.json(user);
-    } catch(err) {
-        console.error(err.message)
-        res.status(500).send('Server Error')
-
+        console.log('1111111111')
+      const user = await User.findById(req.user.id).select('-password');
+      res.json(user);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
     }
-});
-
+  });
 router.post(
     '/',
     [
@@ -36,11 +35,9 @@ router.post(
         if (!errors.isEmpty()) {
             return res.status(400).json({ error: errors.array() });
         }
-
-        const {name,  email, password } = req.body;
+        const {name,  email, password } = req.body
         try {
             let user = await User.findOne({ email })
-
             if (!user) {
                 return res
                 .status(400)

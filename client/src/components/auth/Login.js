@@ -1,24 +1,29 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-const Login = () => {
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
+import { login } from '../../actions/auth'
+import { Redirect } from 'react-router-dom';
+
+const Login = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     })
-
-
     const { email, password } = formData
-
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
-
     const onSubmit = async e => {
-        e.preventDefault();
-        console.log('Success')
-        
-
+        e.preventDefault()
+        login({ email, password })
     }
 
-    return <Fragment>
+    // Redirect if logged in
+    if(isAuthenticated) {
+      return <Redirect to="/dashboard" />
+    }
+
+    return (
+    <Fragment>
         <h1 className="large text-primary">Sign Up</h1>
       <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
       <form className="form" onSubmit={e => onSubmit(e)}>
@@ -43,14 +48,23 @@ const Login = () => {
           />
         </div>
 
-        <input type="submit" className="btn btn-primary" value="Register" />
+        <input type="submit" className="btn btn-primary" value="Login" />
       </form>
       <p className="my-1">
         Already have an account? <Link to ="/register">Sign In</Link>
       </p>
 
     </Fragment>
-
+    )
 }
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticatedL: PropTypes.bool
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, { login })(Login);
