@@ -1,9 +1,9 @@
-
 const mongoose = require('mongoose');
+
 const ProfileSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'user'
     },
     company: {
         type: String
@@ -15,19 +15,20 @@ const ProfileSchema = new mongoose.Schema({
         type: String
     },
     status: {
-        type: String
+        type: String,
+        required: true
     },
     skills: {
         type: [String],
-        require: true
+        required: true
     },
     bio: {
         type: String
     },
-    githubusername: {
+    github_username: {
         type: String
     },
-    experience: [
+    experiences: [
         {
             title: {
                 type: String,
@@ -60,11 +61,11 @@ const ProfileSchema = new mongoose.Schema({
         {
             school: {
                 type: String,
-                require: true
+                required: true
             },
             degree: {
                 type: String,
-                require: true
+                required: true
             },
             fieldofstudy: {
                 type: String,
@@ -82,7 +83,7 @@ const ProfileSchema = new mongoose.Schema({
                 default: false
             },
             description: {
-                type: String
+                type: String,
             }
         }
     ],
@@ -96,17 +97,16 @@ const ProfileSchema = new mongoose.Schema({
         facebook: {
             type: String
         },
-        linked: {
+        linkedin: {
             type: String
         },
         instagram: {
             type: String
-        },
-
+        }
     },
     date: {
         type: Date,
-        default: Date.now
+        default: Date.now() // todo: can be Date.now instead of
     }
 });
 
